@@ -5,7 +5,7 @@
    [trinne-components.events :as events]
    [trinne-components.views :as views]
    [trinne-components.config :as config]
-   ))
+   [stylefy.core :as stylefy]))
 
 
 (defn dev-setup []
@@ -15,6 +15,7 @@
 
 (defn mount-root []
   (re-frame/clear-subscription-cache!)
+  (stylefy/init)
   (reagent/render [views/main-panel]
                   (.getElementById js/document "app")))
 
