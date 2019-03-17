@@ -1,1 +1,1 @@
-(ns trinne-components.atoms.button)
+(ns trinne-components.atoms.button.button)
