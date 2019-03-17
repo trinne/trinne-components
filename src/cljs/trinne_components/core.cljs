@@ -15,11 +15,11 @@
 
 (defn mount-root []
   (re-frame/clear-subscription-cache!)
-  (stylefy/init)
   (reagent/render [views/main-panel]
                   (.getElementById js/document "app")))
 
 (defn ^:export init []
   (re-frame/dispatch-sync [::events/initialize-db])
   (dev-setup)
+  (stylefy/init)
   (mount-root))
