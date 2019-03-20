@@ -1,5 +1,5 @@
 (ns trinne-components.atoms.input.textfield-styles
-  (:require [stylefy.core :as stylefy :refer [use-style use-sub-style]]))
+  (:require [stylefy.core :as stylefy]))
 
 (defn color-for-status [type color]
   (case type
@@ -35,7 +35,11 @@
    ::stylefy/mode {:focus {:outline "none"
                            :background-color color-bg-active}
                    :focus:hover {:background-color color-bg-active}
-                   :hover {:background-color color-bg-hover}}
+                   :hover {:background-color color-bg-hover}
+                   :disabled {:cursor "not-allowed"
+                              :background-color "lightgray"}
+                   :disabled:hover {:cursor "not-allowed"
+                                    :background-color "lightgray"}}
    ::stylefy/manual [[:&:focus
                       ["+ label"
                        {:font-size "0.9rem"
@@ -45,7 +49,12 @@
                       ["~ .text-field-border" {:background-color (color-for-status type "blue")
                                                :transition "all 0.5s"}]]
                      [:&:hover
-                      ["~ .text-field-border" {:background-color (color-for-status type "black")}]]]})
+                      ["~ .text-field-border" {:background-color (color-for-status type "black")}]]
+                     [:&:disabled
+                      ["+ label" {:cursor "not-allowed"
+                                  :color "gray"}]]
+                     [:&:disabled
+                      ["~ .text-field-border" {:cursor "not-allowed"}]]]})
 
 (defn textfield-border-styles [type]
   {:width "100%"

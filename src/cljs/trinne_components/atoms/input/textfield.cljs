@@ -3,22 +3,21 @@
             [reagent.core :as r]
             [trinne-components.atoms.input.textfield-styles :refer [textfield-styles]]))
 
-(defn textfield [{:keys [label on-change placeholder info] :as args}]
-  (let [value (r/atom nil)]
-    (fn [{:keys [label on-change placeholder info] :as args}]
-      (.debug js/console (str "RENDER [textfield - " label "]"))
-      (let [tf-styles (textfield-styles (:type info))]
-        [:div.text-field-container (use-style tf-styles)
-         [:input (use-sub-style tf-styles :input (merge args
-                                                        {:on-change #(do
-                                                                       (reset! value (-> % .-target .-value))
-                                                                       (when on-change (on-change %)))
-                                                         :value @value}))]
-         [:label.label (if (and (empty? @value) (empty? placeholder))
-                         (use-sub-style tf-styles :label)
-                         (use-sub-style tf-styles :label-when-value)) label]
-         [:div.text-field-border (use-sub-style tf-styles :border)]
-         [:small (use-sub-style tf-styles :info) (:text info)]]))))
+(defn textfield [{:keys [label on-change placeholder info value] :as args}]
+  (fn [{:keys [label on-change placeholder info value] :as args}]
+    (.debug js/console (str "RENDER [textfield - " label "]"))
+    (let [tf-styles (textfield-styles (:type info))]
+      [:div.text-field-container (use-style tf-styles)
+       [:input (use-sub-style tf-styles :input (merge args
+                                                      {:on-change #(do
+                                                                     (reset! value (-> % .-target .-value))
+                                                                     (when on-change (on-change %)))
+                                                       :value @value}))]
+       [:label.label (if (and (empty? @value) (empty? placeholder))
+                       (use-sub-style tf-styles :label)
+                       (use-sub-style tf-styles :label-when-value)) label]
+       [:div.text-field-border (use-sub-style tf-styles :border)]
+       [:small (use-sub-style tf-styles :info) (:text info)]])))
 
 (defn validate [state {:keys [valid? warning-message error-message info-message]}]
   (merge {:type :info
